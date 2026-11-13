@@ -18,7 +18,7 @@ Behind the page, Claude checks what is actually deployed and reads the code behi
 In Claude Code:
 
 ```
-/plugin marketplace add laisnametala-pyyne/manual-qa-checklists
+/plugin marketplace add lalanametala/manual-qa-checklists
 /plugin install manual-qa-checklists@manual-qa-checklists
 ```
 

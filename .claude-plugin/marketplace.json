@@ -12,7 +12,7 @@
       "version": "0.1.0",
       "author": { "name": "Laís Nametala" },
       "license": "MIT",
-      "homepage": "https://github.com/laisnametala-pyyne/manual-qa-checklists",
+      "homepage": "https://github.com/lalanametala/manual-qa-checklists",
       "keywords": ["qa", "manual-testing", "checklist", "staging", "release"]
     }
   ]
