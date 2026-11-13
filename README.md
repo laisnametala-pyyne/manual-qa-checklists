@@ -1,5 +1,7 @@
 # Manual QA checklists
 
+> **This repository has moved to [lalanametala/manual-qa-checklists](https://github.com/lalanametala/manual-qa-checklists).** This copy is archived. Install from the new address, as shown below.
+
 A Claude Code plugin that writes manual QA checklists people can actually follow: a page of click-by-click steps that you tick off in the browser as you test a PR, a feature or a release.
 
 Each checklist:
