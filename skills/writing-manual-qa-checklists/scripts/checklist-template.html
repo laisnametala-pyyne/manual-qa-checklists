@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f6f4; --surface: #ffffff; --surface-2: #f0efec; --text: #1b1b1a; --muted: #5f5e5a;
+    --border: #e2e0db; --accent: #c4513a; --accent-soft: #f6e3de; --pass: #1f7a4d; --pass-soft: #e1f2e8;
+    --warn: #9a6a00; --warn-soft: #fbf0d3; --note: #3d5a80; --note-soft: #e3eaf3; --violet: #6b4fa0; --violet-soft: #ece6f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111110; --surface: #1a1a19; --surface-2: #222220; --text: #ecebe8; --muted: #a9a8a3;
+      --border: #2f2e2b; --accent: #e8735a; --accent-soft: #3a211b; --pass: #5cc48f; --pass-soft: #16301f;
+      --warn: #e6b84a; --warn-soft: #33290f; --note: #8fb1dc; --note-soft: #1b2636; --violet: #b9a2e6; --violet-soft: #2a2238;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111110; --surface: #1a1a19; --surface-2: #222220; --text: #ecebe8; --muted: #a9a8a3;
+    --border: #2f2e2b; --accent: #e8735a; --accent-soft: #3a211b; --pass: #5cc48f; --pass-soft: #16301f;
+    --warn: #e6b84a; --warn-soft: #33290f; --note: #8fb1dc; --note-soft: #1b2636; --violet: #b9a2e6; --violet-soft: #2a2238;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 400 15px/1.6 Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 880px; margin: 0 auto; padding: 32px 16px 96px; }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.02em; line-height: 1.25; }
+  h1 { font-size: 30px; margin: 6px 0 8px; }
+  h2 { font-size: 22px; margin: 48px 0 4px; padding-top: 16px; border-top: 2px solid var(--border); }
+  h3.section-title { font-size: 17px; margin: 28px 0 4px; }
+  p { margin: 8px 0; }
+  a { color: var(--accent); overflow-wrap: anywhere; }
+  kbd { font: 500 12px/1 "IBM Plex Mono", ui-monospace, monospace; background: var(--surface-2); border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px; padding: 2px 5px; }
+  .eyebrow { font: 500 12px/1.4 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .lede { color: var(--muted); font-size: 16px; }
+  .part-intro { color: var(--muted); margin: 4px 0 0; }
+  .section-intro { color: var(--muted); margin: 0 0 12px; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-top: 16px; }
+  .card h3 { margin: 0 0 8px; font-size: 15px; font-weight: 600; }
+  .card ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+  .callout { border-left: 4px solid var(--warn); background: var(--warn-soft); border-radius: 6px; padding: 10px 14px; margin: 12px 0 0; }
+  .value-label { font: 500 12px/1.4 "IBM Plex Mono", monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  .small { font-size: 13px; color: var(--muted); }
+  .ui { background: var(--surface-2); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; }
+  .sticky { position: sticky; top: 0; z-index: 2; background: var(--bg); border-bottom: 1px solid var(--border); margin: 20px -16px 0; padding: 12px 16px; }
+  .progress-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; }
+  .progress-count { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .bar { flex: 1 1 200px; height: 6px; border-radius: 3px; background: var(--surface-2); overflow: hidden; }
+  .bar-fill { height: 100%; width: 100%; background: var(--pass); transform-origin: left; transform: scaleX(0); transition: transform 200ms ease; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  button { font: 600 13px/1 Inter, system-ui, sans-serif; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 0 12px; min-height: 36px; cursor: pointer; transition: background 150ms ease; }
+  button:hover { background: var(--surface-2); }
+  button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 1px 9px; font: 500 11px/1.8 "IBM Plex Mono", monospace; letter-spacing: 0.04em; text-transform: uppercase; white-space: nowrap; }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .chip-new { color: var(--accent); background: var(--accent-soft); }
+  .chip-same { color: var(--note); background: var(--note-soft); }
+  .chip-optional { color: var(--warn); background: var(--warn-soft); }
+  .chip-claude { color: var(--violet); background: var(--violet-soft); }
+  .legend { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 10px; }
+  ol.steps { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .step-card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px 14px; transition: background 150ms ease; }
+  .step:has(input:checked) .step-card { background: var(--pass-soft); border-color: transparent; }
+  .step-check { display: grid; grid-template-columns: 24px 44px 1fr; gap: 0 10px; align-items: start; min-height: 44px; cursor: pointer; }
+  .step-check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--pass); cursor: pointer; }
+  .step-no { font: 500 13px/1.6 "IBM Plex Mono", monospace; color: var(--muted); padding-top: 1px; }
+  .step:has(input:checked) .step-no { color: var(--pass); }
+  .step-title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; font-weight: 600; }
+  .step-body { margin-left: 78px; }
+  ol.acts { margin: 6px 0 0; padding-left: 20px; display: grid; gap: 6px; }
+  ol.acts > li::marker { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .expect { margin: 10px 0 0; padding-top: 8px; border-top: 1px dashed var(--border); color: var(--muted); }
+  .expect b { color: var(--text); font-weight: 600; }
+  .paste { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: start; margin-top: 6px; }
+  pre { margin: 0; padding: 8px 12px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; font: 400 13px/1.5 "IBM Plex Mono", ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .start-value { display: grid; gap: 6px; margin-top: 12px; }
+  .start-value-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .start-value .small { margin: 0; }
+  textarea { width: 100%; min-height: 120px; resize: vertical; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); font: 400 16px/1.5 Inter, system-ui, sans-serif; }
+  @media (max-width: 640px) {
+    h1 { font-size: 25px; }
+    .card { padding: 16px; }
+    .step-check { grid-template-columns: 22px 40px 1fr; }
+    .step-body { margin-left: 0; }
+    .paste { grid-template-columns: 1fr; }
+    .paste button { justify-self: start; }
+  }
+  @media (prefers-reduced-motion: reduce) { .bar-fill, button, .step-card { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">{{EYEBROW}}</div>
+  <h1>{{HEADING}}</h1>
+  <p class="lede">{{LEDE}}</p>
+  {{LEGEND}}
+  <div class="sticky">
+    <div class="progress-row">
+      <span class="progress-count" id="progress-count" aria-live="polite">0 of 0 steps</span>
+      <div class="bar" aria-hidden="true"><div class="bar-fill" id="bar-fill"></div></div>
+      <div class="actions">
+        <button type="button" id="copy-results">Copy results</button>
+        <button type="button" id="reset">Reset ticks</button>
+      </div>
+    </div>
+  </div>
+  {{CARDS}}
+  {{PARTS}}
+  <h2>Notes</h2>
+  <p class="part-intro">Anything that looked wrong, with the step number. Copy results includes this.</p>
+  <textarea id="notes" aria-label="Notes" placeholder="{{NOTES_PLACEHOLDER}}"></textarea>
+</main>
+<script>
+  const STORAGE_KEY = {{STORAGE_KEY}};
+  const RESULTS_TITLE = {{RESULTS_TITLE}};
+  const RESET_CONFIRM_MS = 3000;
+  const COPIED_LABEL_MS = 2000;
+
+  const stepInputs = [...document.querySelectorAll("input[data-step]")];
+  const notes = document.getElementById("notes");
+  const progressCount = document.getElementById("progress-count");
+  const barFill = document.getElementById("bar-fill");
+  const resetButton = document.getElementById("reset");
+  const copyResultsButton = document.getElementById("copy-results");
+
+  function loadState() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? "{}");
+      return { done: saved.done ?? {}, notes: saved.notes ?? "" };
+    } catch {
+      return { done: {}, notes: "" };
+    }
+  }
+
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      // Ticks still work for this visit when storage is blocked.
+    }
+  }
+
+  const state = loadState();
+
+  function renderProgress() {
+    const doneCount = stepInputs.filter((input) => input.checked).length;
+    progressCount.textContent = `${doneCount} of ${stepInputs.length} steps`;
+    barFill.style.transform = `scaleX(${stepInputs.length === 0 ? 0 : doneCount / stepInputs.length})`;
+  }
+
+  for (const input of stepInputs) {
+    input.checked = state.done[input.dataset.step] === true;
+    input.addEventListener("change", () => {
+      state.done[input.dataset.step] = input.checked;
+      saveState();
+      renderProgress();
+    });
+  }
+  notes.value = state.notes;
+  notes.addEventListener("input", () => {
+    state.notes = notes.value;
+    saveState();
+  });
+  renderProgress();
+
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch {
+      const scratch = document.createElement("textarea");
+      scratch.value = text;
+      document.body.append(scratch);
+      scratch.select();
+      const isCopied = document.execCommand("copy");
+      scratch.remove();
+      return isCopied;
+    }
+  }
+
+  function flashLabel(button, label, durationMs) {
+    const original = button.dataset.label ?? button.textContent;
+    button.dataset.label = original;
+    button.textContent = label;
+    setTimeout(() => { button.textContent = original; }, durationMs);
+  }
+
+  function pasteValueOf(button) {
+    if (button.dataset.repeat !== undefined) return button.dataset.repeat.repeat(Number(button.dataset.times));
+    return document.getElementById(button.dataset.copy).textContent;
+  }
+
+  for (const button of document.querySelectorAll("button[data-copy], button[data-repeat]")) {
+    button.addEventListener("click", async () => {
+      const isCopied = await copyText(pasteValueOf(button));
+      flashLabel(button, isCopied ? "Copied" : "Select and copy", COPIED_LABEL_MS);
+    });
+  }
+
+  function resultsText() {
+    const ticked = stepInputs.filter((input) => input.checked).length;
+    const open = stepInputs.filter((input) => !input.checked);
+    const lines = [`${RESULTS_TITLE}: ${ticked} of ${stepInputs.length} steps ticked.`];
+    if (open.length > 0) {
+      lines.push("Not ticked:");
+      for (const input of open) lines.push(`- ${input.dataset.step} ${input.dataset.title}`);
+    }
+    const trimmedNotes = notes.value.trim();
+    if (trimmedNotes !== "") lines.push("Notes:", trimmedNotes);
+    return lines.join("\n");
+  }
+
+  copyResultsButton.addEventListener("click", async () => {
+    const isCopied = await copyText(resultsText());
+    flashLabel(copyResultsButton, isCopied ? "Copied" : "Copy failed", COPIED_LABEL_MS);
+  });
+
+  let resetArmedUntil = 0;
+  resetButton.addEventListener("click", () => {
+    const now = performance.now();
+    if (now > resetArmedUntil) {
+      resetArmedUntil = now + RESET_CONFIRM_MS;
+      flashLabel(resetButton, "Click again to reset", RESET_CONFIRM_MS);
+      return;
+    }
+    resetArmedUntil = 0;
+    for (const input of stepInputs) input.checked = false;
+    state.done = {};
+    saveState();
+    renderProgress();
+    resetButton.textContent = resetButton.dataset.label ?? "Reset ticks";
+  });
+</script>
+</body>
+</html>

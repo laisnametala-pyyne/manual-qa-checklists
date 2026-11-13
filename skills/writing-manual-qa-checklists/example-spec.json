@@ -1,0 +1,91 @@
+{
+  "title": "Display name QA",
+  "eyebrow": "PR #482 · staging · signed-in user",
+  "lede": "Checks that a user can change their display name, that the 40-character limit holds, and that the name shows in the header. About 10 minutes. Each step lists the exact clicks, and anything you type has a Copy button.",
+  "storageKey": "pr-482-display-name-staging-qa",
+  "resultsTitle": "Display name QA, PR #482",
+  "legend": ["optional", "claude"],
+  "legendText": { "optional": "skip if you're short on time", "claude": "the assistant does this, not you" },
+  "notesPlaceholder": "e.g. 1.3: the counter said …",
+  "cards": [
+    {
+      "title": "Before you start",
+      "blocks": [
+        { "p": "Page: @@https://staging.example.com/settings/profile|staging.example.com/settings/profile@@. PR #482 is live there (deploy of 13 Nov, 14:20 UTC)." },
+        { "ul": [
+          "**Account.** qa-user@example.com, already signed in. If it asks, sign in with that account.",
+          "**Pasting.** Click **Copy** here, click inside the box, press {{Cmd}} {{A}}, then {{Cmd}} {{V}}.",
+          "**Saving takes two clicks.** [[Save]] opens a **Save your profile?** dialog; [[Save profile]] inside it is what saves."
+        ] }
+      ]
+    },
+    {
+      "title": "Starting values",
+      "blocks": [
+        { "small": "Read from the database on 13 Nov. Step 2.2 puts it back." },
+        { "label": "Display name", "value": "QA User", "id": "start-name", "note": "Shows in Settings > Profile and in the header, top right." }
+      ]
+    }
+  ],
+  "parts": [
+    {
+      "title": "Part A. Staging as it is",
+      "sections": [
+        {
+          "title": "1. Change the name",
+          "steps": [
+            {
+              "id": "1.1",
+              "title": "Edit and save",
+              "actions": [
+                { "text": "Click in [[Display name]] and paste:", "paste": { "id": "s11-name", "value": "QA User round 1" } },
+                "Click [[Save]], then [[Save profile]] in the dialog."
+              ],
+              "expect": "The dialog **Save your profile?** shows \"QA User\" under [[BEFORE]] and \"QA User round 1\" under [[AFTER]]. After [[Save profile]] a green [[SAVED]] tag shows for about 3 seconds, and the header reads \"QA User round 1\" without a reload."
+            },
+            {
+              "id": "1.2",
+              "title": "The 40-character limit",
+              "actions": [
+                { "text": "Click in [[Display name]] and paste:", "paste": { "repeat": "x", "times": 45, "preview": "xxxxxxxxxx … (45 characters)" } }
+              ],
+              "expect": "Only 40 characters go in, the counter reads \"40 / 40\" in amber, and [[Save]] stays enabled."
+            }
+          ]
+        },
+        {
+          "title": "2. Clean up",
+          "steps": [
+            {
+              "id": "2.1",
+              "title": "Discard the long name",
+              "actions": [
+                "Click [[Cancel]], then [[Discard changes]] in the dialog."
+              ],
+              "expect": "The dialog is **Discard your changes?** After [[Discard changes]] the box reads \"QA User round 1\" again."
+            },
+            {
+              "id": "2.2",
+              "title": "Put the starting name back",
+              "actions": [
+                { "text": "Paste the starting value into [[Display name]]:", "paste": { "id": "s22-name", "value": "QA User" } },
+                "Click [[Save]], then [[Save profile]]."
+              ],
+              "expect": "The header reads \"QA User\"."
+            },
+            {
+              "id": "2.3",
+              "title": "Tell Claude \"QA done\"",
+              "chip": "claude",
+              "actions": [
+                "Say \"QA done\". If anything failed, click [[Copy results]] at the top and paste it in too."
+              ],
+              "expectLabel": "Then:",
+              "expect": "Claude checks, read only, that the display name is \"QA User\" again and that the profile history shows only the saves you made."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

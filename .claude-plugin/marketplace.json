@@ -1,0 +1,19 @@
+{
+  "name": "manual-qa-checklists",
+  "owner": { "name": "Laís Nametala" },
+  "metadata": {
+    "description": "A Claude Code skill that writes click-by-click manual QA checklists"
+  },
+  "plugins": [
+    {
+      "name": "manual-qa-checklists",
+      "source": "./",
+      "description": "Writes click-by-click manual QA checklists for a PR, feature or release: exact on-screen labels, Copy buttons for everything the tester types, clean-up steps, independent review and a read-only check after the QA.",
+      "version": "0.1.0",
+      "author": { "name": "Laís Nametala" },
+      "license": "MIT",
+      "homepage": "https://github.com/laisnametala-pyyne/manual-qa-checklists",
+      "keywords": ["qa", "manual-testing", "checklist", "staging", "release"]
+    }
+  ]
+}
